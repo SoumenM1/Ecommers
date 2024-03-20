@@ -64,7 +64,7 @@ try {
     where: { email: email },
     data: { emailVerified: true }
   });
-   return res.status(200).json({msg:"user vrifyed plz login"})
+   return res.status(200).json({msg:"user vrifyed plz login",data:true})
 } catch (error) {
   return res.status(500).json({ error: 'Internal server error' });
 }
@@ -76,7 +76,7 @@ const login = async (req, res) => {
     if(!email || !password) return res.status(400).json({"msg":"missing params"})
     const user = await userModel.findUserByUsername(email);
     if (!user) {
-      res.status(401).json({ error: 'Invalid username or password' });
+      res.status(401).json({status:401, error: 'Invalid username or password' });
       return;
     }
 
