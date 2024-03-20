@@ -21,11 +21,11 @@ function LoginPage({ onLogin }) {
       onLogin();
       history('/');
     } catch (error) {
-      if(error.response.status === 401){
-        alert('Dont have account')
-        history('/register');
-        return
-      }
+      // if(error.response.status === 401){
+      //   alert('Dont have account')
+      //   history('/register');
+      //   return
+      // }
       if(!error.response.emailVerified){
         await axios.post('http://localhost:4000/api/sendMail', { email }); // Send email verification
         history(`/verifyotp?email=${email}`);
