@@ -29,6 +29,7 @@ const register = async (req, res)=> {
 const sendMailOtp = async (req, res) => {
   try {
     const { email } = req.body;
+    if(!email) return res.status(400).json({msg:"email missing"})
     // Check if email is verified
     const user = await userModel.findUserByUsername(email);
     if (user.emailVerified) {
@@ -53,7 +54,7 @@ try {
   // const email = res.email;
   const { email ,otp } = req.body;
    if(!email || !otp){
-    res.status(401).json({ error: 'invalid email or otp' });
+   return res.status(401).json({ error: 'invalid email or otp' });
    }
    const verify = await userModel.validateOTP(email,otp);
    if(verify== false){
@@ -65,13 +66,14 @@ try {
   });
    return res.status(200).json({msg:"user vrifyed plz login"})
 } catch (error) {
-  res.status(500).json({ error: 'Internal server error' });
+  return res.status(500).json({ error: 'Internal server error' });
 }
 }
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if(!email || !password) return res.status(400).json({"msg":"missing params"})
     const user = await userModel.findUserByUsername(email);
     if (!user) {
       res.status(401).json({ error: 'Invalid username or password' });
